@@ -15,7 +15,7 @@ export default new Vuex.Store({
     listnames: [],
     filters: {
       gender: null,
-      country: null,
+      nat: null,
       age: null
     }
   },

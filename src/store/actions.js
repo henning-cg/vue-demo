@@ -19,16 +19,16 @@ export default {
     commit('toggleFavourite', payload);
   },
 
-  setCountryFilter({commit, state}, payload,){
-    commit('setfilter', {country:payload.country, gender:state.filters.gender, age:state.filters.age})
+  setNatFilter({commit, state}, payload,){
+    commit('setfilter', {nat:payload.nat, gender:state.filters.gender, age:state.filters.age})
   },
 
   setAgeFilter({commit, state}, payload,){
-    commit('setfilter', {age:payload.age, gender:state.filters.gender, country:state.filters.country})
+    commit('setfilter', {age:payload.age, gender:state.filters.gender, nat:state.filters.nat})
   },
 
   setGenderFilter({commit, state}, payload,){
-    commit('setfilter', {gender:payload.gender, country:state.filters.country, age:state.filters.age})
+    commit('setfilter', {gender:payload.gender, nat:state.filters.nat, age:state.filters.age})
   },
 
   async getListnames({ commit }) {

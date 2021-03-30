@@ -2,50 +2,24 @@
 
   <section class="tableuser">
 <div>
-    <md-table
-      v-model="usuarios"
-      md-sort="name"
-      md-sort-order="asc"
-      md-card
-      md-fixed-header
-      mdModelId="email"
-      @md-selected="onSelect"
+    <v-data-table
+    :headers="headers"
+    :items="usuarios"
+    item-key="email"
+    :items-per-page="100"
+    class="elevation-1" @click:row="handleClick"
     >
-      <md-table-toolbar>
-        <div class="md-toolbar-section-start">
-       
-        </div>
-        
-          <md-table-toolbar slot="md-table-alternate-header" slot-scope="{ count }">
-        <div class="md-toolbar-section-start">{{ getAlternateLabel(count) }}</div>
-      </md-table-toolbar>
+     <template v-slot:item.dob.date="{ item }">
+        {{ item.dob.date | formatDate }}
+   </template>
 
-        <md-field md-clearable class="md-toolbar-section-end">
-          <md-input
-            placeholder="Search by user name..."
-            v-model="search"
-            @input="searchOnTable"/>
-        </md-field>
-      </md-table-toolbar>
-
-      <md-table-empty-state
-        md-label="No users found"
-        :md-description="`No user found for this '${search}' query. Try a different search term .`">
-      </md-table-empty-state>
-
-      <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="multiple" md-auto-select v-on:click="chooseUser(item)">
-       <md-table-cell md-label="Gender" >{{ item.gender }}</md-table-cell>
-       <md-table-cell md-label="Name" >{{ item.name.first }} {{ item.name.last }}</md-table-cell>
-       <md-table-cell md-label="Email" >{{ item.email }}</md-table-cell>
-       <md-table-cell md-label="Nationality" >{{ item.nat }}</md-table-cell>
-       <md-table-cell md-label="Date of Birth" >{{ item.dob.date | formatDate}}</md-table-cell>
-       <md-table-cell md-label="Register Date" >{{ item.registered.date | formatDate }}</md-table-cell>
-      </md-table-row>
-    </md-table>
+     <template v-slot:item.registered.date="{ item }">
+        {{ item.registered.date | formatDate }}
+   </template>
+    </v-data-table>
 
   </div>
-      <p>Selected:</p>
-    {{ selected }}
+
 
   </section>
 
@@ -84,9 +58,34 @@ const searchByName = (items, term) => {
          this.getUsers();
     },
   data: () => ({
-     selected: [],
-    search: null,
-    searched: [],
+    headers:[
+      {
+        text: "Género", 
+        value: "gender"
+      },
+       {
+        text: "Nombre", 
+        value: "name.first"
+      },
+       {
+        text: "Email", 
+        value: "email"
+      },
+       {
+        text: "Nacionalidad", 
+        value: "nat"
+      },
+       {
+        text: "Fecha de Nacimiento", 
+        value: "dob.date"
+      },
+       {
+        text: "Fecha de Registro", 
+        value: "registered.date"
+      },
+
+      
+    ]
 
   }),
  
@@ -94,28 +93,9 @@ const searchByName = (items, term) => {
      //this.getUsers();
     },
   methods: {
-    onSelect (items) {
-      //console.log(JSON.parse(JSON.stringify(items)));
-      this.selected = items
-      var parsedobj = JSON.parse(JSON.stringify(items))
-      localStorage.setItem('favlist', parsedobj);
-      console.log(parsedobj);
-      },
-      getAlternateLabel (count) {
-        let plural = ''
-        if (count > 1) {
-          plural = 's'
-        }
-        return `${count} user${plural} selected`
-      },
-   
-    chooseUser(item){
-         this.$router.push({ name: "Vista2", params: {id: item.email} })
-    },
-
-    searchOnTable() {
-      this.usuarios = searchByName( this.usuarios, this.search);
-    },
+   handleClick(value) {
+     this.$router.push({ name: "Vista2", params: {id: value.email} })
+   },
   },
 };
 </script>

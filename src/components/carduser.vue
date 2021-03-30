@@ -1,43 +1,31 @@
 <template lang="html">
-  <section class="carduser">
+ <v-container>
+   <v-row>
+  <v-col cols="2">
+   <v-img
+   :src="us.picture.large"
+></v-img>
+  </v-col >
+  <v-col cols="8">
+  </v-col >
+  <v-col cols="2">
+   <v-btn
+        class="ma-2"
+        color="primary"
+        @click="addfav"
+        >
+        <v-icon v-if="isfavourite">
+        mdi-heart
+        </v-icon>
+         <v-icon v-else>
+        mdi-heart-outline
+        </v-icon>
+      </v-btn>
+ </v-col >
+</v-row>
+</v-container>
 
-    <md-card >
-         <md-card-area md-inset>
-      <md-card-header>
-          <md-card-media md-small>
-          <img v-bind:src="us.picture.large" class="img-thumbnail img-responsive"  />
-        </md-card-media>
-        <md-card-header-text>
-           <div class="person__map">
-            <iframe width="100%" height="190" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" v-bind:src="'https://maps.google.com/maps?q=' + us.location.coordinates.latitude +',' + us.location.coordinates.longitude + '&z=7&amp;output=embed'">
-            </iframe>
-          </div>
-        </md-card-header-text>
-             <md-card-actions>
-        <md-button  v-on:click="addfav"> <md-icon v-if="isfavourite">favorite</md-icon> <md-icon v-else>favorite_border</md-icon> </md-button>
-      </md-card-actions>
-      </md-card-header>
-      <md-card-content>
-         <div class="name">   <md-icon>perm_identity</md-icon> {{us.name.title}}  {{us.name.first}} {{us.name.last}}</div>
-          </div>
-          <div class="email">
-      <md-icon>local_post_office</md-icon> {{us.email}}
-          </div>
-        </md-card-content>
-         </md-card-area >
-        <md-card-content>
-        <div class="card-reservation">
-         <div class="ciudad"><md-icon>location_on</md-icon>{{us.location.city}} {{us.location.street.name}} {{us.location.street.number}}</div>
-          </div>
-        
-          <div class="tlfn">
-                 <md-icon>call</md-icon> {{us.phone}}
-          </div>
-        </div>
-      </md-card-content>
-    
-    </md-card>
-  </section>
+
 
 </template>
 
@@ -53,10 +41,7 @@
     },
     
    props: {
-    us: {
-      type: Object,
-      default: 1
-    }
+    us: null
   },
     methods: {
       addfav: function (){
@@ -65,7 +50,7 @@
     },
     computed: {
       isfavourite() {
-      return this.$store.getters.isFavourite(this.us);
+      return !!this.us && this.$store.getters.isFavourite(this.us);
       }   
 
     }

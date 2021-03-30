@@ -1,15 +1,13 @@
 <template>
 <div class="Vista3">
     <h1>Fav List</h1>
-     <tableuser :usuarios="searched"  />
+          <tableuser :usuarios="favourites" />
  <md-button> <md-icon>
-download </md-icon><vue-blob-json-csv
-            @error="handleError"
+    download </md-icon><vue-blob-json-csv
             title="Download Todos CSV"
             file-type="csv"
             file-name="todos"
-            :data="searched"
-            :fields="fieldsKey"
+            :data="csvfavourites"
             class="button is-link"
           /></md-button>
     
@@ -19,41 +17,34 @@ download </md-icon><vue-blob-json-csv
 
 import ApiUsers from '../ApiRandomUser.js'
 import tableuser from "@/components/tableuser.vue"
+import {mapGetters } from 'vuex'
+import moment from 'moment'
+
 export default {
 name: "Vista3",
 
 components: {
     tableuser,
   },
-
-data: () => ({
-    selectedfavs: [],
-    searched: [],
-    users: []
-  }),
-   mounted(){
-     // invocar los métodos
-     this.getUsers();
-     console.log(this.searched);
-     //this.reloadFavs();
-    },
- methods: {
-     reloadFavs(){
-        console.log( JSON.parse(localStorage.getItem('favlist')) );
-        var parsedobj =localStorage.getItem('favlist');
-        this.selectedfavs = parsedobj;
-
-    },
-      getUsers(){
-      ApiUsers.getUsers().then((response) => {
-        //console.log(response);
-        this.users = response;
-        this.searched = this.users;
-        console.log(this.searched);
-      })
-    },
- }
  
+  computed: {
+  ...mapGetters(["favourites"]),
+   csvfavourites(){
+     return this.favourites.map(fav => {
+       return {
+        gender: fav.gender,
+        name: `${fav.name.first} ${fav.name.last}`,
+        email: fav.email,
+        nacionalidad: fav.nat,
+        fechaNacimiento: moment(fav.dob.date).format('MM/DD/YYYY'),
+        fechaRegistro: moment(fav.registered.date).format('MM/DD/YYYY'), 
+       };
+     })
+   }
+ },
+
+ methods: {
+ }
   
  }
 </script>
