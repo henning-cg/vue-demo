@@ -1,7 +1,7 @@
 <template>
   <div class="Vista3">
     <h1>Favoritos</h1>
-    <v-card>
+    <v-card style="margin-bottom: 20px;">
       <tableuser :usuarios="favourites" />
     </v-card>
     <v-btn color="primary" :disabled="!hasFavourites">
@@ -13,7 +13,7 @@
         class="button is-link"
       />
     </v-btn>
-
+    &nbsp;
     <v-dialog
       v-model="showSaveListDialog"
       width="500"
