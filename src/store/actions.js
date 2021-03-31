@@ -31,19 +31,6 @@ export default {
     commit('setfilter', {gender:payload.gender, nat:state.filters.nat, age:state.filters.age})
   },
 
-  async getListnames({ commit }) {
-    try {
-      commit('loadingstarted');
-      let listnames = await favouriteLists.getListnames();
-      commit('setListnames', {listnames})
-
-    } catch (e) {
-      commit('error', {message: e.toString()});
-    } finally {
-      commit('loadingstopped');
-    }
-  },
-
   async loadFavourites({ commit }, payload) {
     try {
       commit('loadingstarted');
@@ -57,16 +44,4 @@ export default {
     }
   },
 
-  async saveFavourites({ commit, getters }, payload) {
-    try {
-      commit('loadingstarted');
-      let profiles = await favouriteLists.saveList(payload.name, getters.favourites);
-      commit('setFavourites', {profiles})
-
-    } catch (e) {
-      commit('error', {message: e.toString()});
-    } finally {
-      commit('loadingstopped');
-    }
-  },
 }

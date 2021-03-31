@@ -21,10 +21,6 @@ export default {
     Vue.set(state.favourites, payload.userId, !state.favourites[payload.userId]);
   },
 
-  setListnames(state, payload) {
-    state.listnames = payload.listnames;
-  },
-
   setFavourites(state, payload) {
     state.favourites = payload.profiles.reduce((favourites, profile) => favourites[profile.email] = true, {});
   },

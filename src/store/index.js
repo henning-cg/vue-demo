@@ -12,7 +12,6 @@ export default new Vuex.Store({
     error: null,
     users: [],
     favourites: {},
-    listnames: [],
     filters: {
       gender: null,
       nat: null,

@@ -35,7 +35,6 @@
 
 <script>
 
-import ApiUsers from '../ApiRandomUser.js'
 import tableuser from "@/components/tableuser.vue"
 
 

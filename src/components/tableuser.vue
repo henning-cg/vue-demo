@@ -9,6 +9,7 @@
       class="elevation-1"
       @click:row="handleClick"
       hide-default-footer
+      :no-data-text="noDataText"
       >
         <template v-slot:item.dob.date="{ item }">
           {{ item.dob.date | formatDate }}
@@ -28,7 +29,8 @@ import ApiUsers from '../ApiRandomUser.js'
   export default  {
     name: 'tableuser',
      props: {
-    usuarios: Array
+    usuarios: null,
+    noDataText: {default: "No hay perfiles"}
   },
   data: () => ({
     headers:[

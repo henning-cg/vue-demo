@@ -2,7 +2,7 @@
   <div class="Vista3">
     <h1>Favoritos</h1>
     <v-card style="margin-bottom: 20px;">
-      <tableuser :usuarios="favourites" />
+      <tableuser :usuarios="favourites" noDataText="No hay perfiles favoritos" />
     </v-card>
     <v-btn color="primary" :disabled="!hasFavourites">
       <vue-blob-json-csv
@@ -21,6 +21,7 @@
       <template v-slot:activator="{ on, attrs }">
         <v-btn
           color="secondary"
+          :disabled="!hasFavourites"
           v-bind="attrs"
           v-on="on"
         >
@@ -101,8 +102,15 @@ export default {
 
   methods: {
     async saveFavList() {
-      await favouriteLists.saveList(this.listName, this.favourites);
-      this.showSaveListDialog = false;
+      try {
+        this.$store.commit('loadingstarted');
+        await favouriteLists.saveList(this.listName, this.favourites);
+        this.showSaveListDialog = false;
+      } catch (e) {
+        this.$store.commit('error', {message: e.toString()});
+      } finally {
+        this.$store.commit('loadingstopped');
+      }
     }
   },
 };
