@@ -13,6 +13,6 @@ export default {
   },
 
   async loadList(name) {
-    return axios.get(`${process.env.VUE_APP_FAVOURITE_LISTS_API_BASE_URL}/lists/${name}`).then(r => r.data.profiles);
+    return axios.get(`${process.env.VUE_APP_FAVOURITE_LISTS_API_BASE_URL}/lists/${name}`).then(r => r.data);
   }
 }

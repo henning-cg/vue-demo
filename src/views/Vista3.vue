@@ -61,12 +61,64 @@
       </v-card>
     </v-dialog>
 
+    &nbsp;
+    <v-dialog
+      v-model="showLoadListDialog"
+      width="500"
+    >
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          color="secondary"
+          v-bind="attrs"
+          v-on="on"
+          @click="onLoadDialog"
+        >
+          Cargar favoritos
+        </v-btn>
+      </template>
+
+      <v-card>
+        <v-card-title class="headline grey lighten-2">
+          Cargar una lista de favoritos compartida
+        </v-card-title>
+
+
+        <v-card-text>
+          <v-select
+            :items="listnames"
+            label="Nombre de la lista"
+            v-model="listnameToLoad"
+          ></v-select>
+        </v-card-text>
+
+        <v-divider></v-divider>
+
+        <v-card-actions>
+          <v-btn
+            color="secondary"
+            text
+            @click="showLoadListDialog = false"
+          >
+            Cancelar
+          </v-btn>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="primary"
+            text
+            @click="loadFavList"
+          >
+            Cargar
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
 
   </div>
 </template>
 <script>
 import tableuser from "@/components/tableuser.vue";
-import { mapGetters } from "vuex";
+import { mapState, mapGetters } from "vuex";
 import moment from "moment";
 import favouriteLists from  "@/api/favouriteLists";
 
@@ -79,6 +131,7 @@ export default {
 
   computed: {
     ...mapGetters(["favourites", "hasFavourites"]),
+    ...mapState(['listnames']),
     csvfavourites() {
       return this.favourites.map((fav) => {
         return {
@@ -96,7 +149,9 @@ export default {
   data() {
     return {
       showSaveListDialog: false,
-      listName: "Mis favoritos"
+      showLoadListDialog: false,
+      listName: "Mis favoritos",
+      listnameToLoad: ""
     }
   },
 
@@ -111,6 +166,12 @@ export default {
       } finally {
         this.$store.commit('loadingstopped');
       }
+    },
+    async loadFavList() {
+      this.$store.dispatch('loadFavourites', {name: this.listnameToLoad});
+    },
+    onLoadDialog() {
+      this.$store.dispatch('getListnames');
     }
   },
 };

@@ -16,7 +16,8 @@ export default new Vuex.Store({
       gender: null,
       nat: null,
       age: null
-    }
+    },
+    listnames: []
   },
   actions,
   mutations,

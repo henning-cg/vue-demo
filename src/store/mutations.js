@@ -17,15 +17,22 @@ export default {
     state.loadingCount--;
   },
 
+  setListnames(state, payload) {
+    state.listnames = payload.listnames;
+  },
+
   toggleFavourite(state, payload) {
     Vue.set(state.favourites, payload.userId, !state.favourites[payload.userId]);
   },
 
   setFavourites(state, payload) {
-    state.favourites = payload.profiles.reduce((favourites, profile) => favourites[profile.email] = true, {});
+    state.favourites = payload.profiles.reduce((favourites, profile) => {
+      favourites[profile.email] = true;
+      return favourites;
+    }, {});
   },
 
-  setfilter(state, payload){
+  setfilter(state, payload) {
     state.filters = payload
   }
 }
