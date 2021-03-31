@@ -10,8 +10,14 @@
       
       <v-list-item-content>
           <div class="person__map">
-            <iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" v-bind:src="'https://maps.google.com/maps?q=' + us.location.coordinates.latitude+',' + us.location.coordinates.longitude + '&z=7&amp;output=embed'">
-            </iframe>
+            <MapContainer
+              style="height: 400px"
+              :markerLat="us.location.coordinates.latitude"
+              :markerLng="us.location.coordinates.longitude"
+              :markerText="`${us.location.country}  ${us.location.street.name}, ${us.location.street.number}`"
+            ></MapContainer>
+            <!-- <iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" v-bind:src="'https://maps.google.com/maps?q=' + us.location.coordinates.latitude+',' + us.location.coordinates.longitude + '&z=7&amp;output=embed'">
+            </iframe> -->
           </div>
         </div>
       </div>
@@ -70,8 +76,13 @@
 </template>
 
 <script lang="js">
+  import MapContainer from "@/components/MapContainer.vue"
+
   export default  {
     name: 'carduser',
+    components: {
+      MapContainer
+    },
     data: () => ({
     ususarios: ' ',
    

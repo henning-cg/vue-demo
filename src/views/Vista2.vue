@@ -6,13 +6,11 @@
 
 <script>
 import carduser from "@/components/carduser.vue"
-import ApiUsers from '../ApiRandomUser.js'
-import { mapGetters } from 'vuex'
 
 export default {
     name: 'Vista2',
     components: {
-        carduser
+        carduser,
     },
     props: ['id'],
     computed: {
